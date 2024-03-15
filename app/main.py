@@ -1,20 +1,12 @@
-from typing import Union
-
 from fastapi import FastAPI
+
+from model import model_router
 
 app = FastAPI()
 
+app.include_router(model_router.app, tags=["model"])
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-
-@app.get("/users/me")
-async def read_user_me():
-    return {"user_id": "the current user"}
-
-
-@app.get("/users/{user_id}")
-async def read_user(user_id: str):
-    return {"user_id": user_id}

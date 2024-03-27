@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  fastapi:
+    build: 
+      dockerfile: docker/Dockerfile
+    command: "uvicorn app.main:app --host=0.0.0.0 --port=8000 --reload"
+    ports:
+      - "5000:8000"
+    develop:
+      watch:
+        - action: sync
+          path: ./app
+    networks:
+      - extension-network
+      
+networks:
+  extension-network:

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from model import model_router
+from app.model import model_router
 
 app = FastAPI(
     title="MIDAS",

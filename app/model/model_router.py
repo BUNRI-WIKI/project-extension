@@ -1,9 +1,9 @@
 from typing import Any, List
 
 from fastapi import APIRouter, status
-from model.model_schema import ResultResponse
 
-from model import model_service
+from app.model.model_schema import ResultResponse
+from app.model import model_service
 
 app = APIRouter(
     prefix="/models",

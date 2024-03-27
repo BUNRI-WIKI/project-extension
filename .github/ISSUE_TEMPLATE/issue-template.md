@@ -2,7 +2,7 @@
 name: Issue Template
 about: Issue template for MIDAS projects
 title: ''
-labels: ''
+labels: Feat
 assignees: GomDue
 
 ---

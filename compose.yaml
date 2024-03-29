@@ -12,7 +12,22 @@ services:
         - action: sync
           path: ./app
     networks:
-      - extension-network
-      
+      - midas-network
+
+  was:
+    image: iampingu99/project-backend
+    ports:
+      - "8000:8080"
+    networks:
+      - midas-network
+
+  # front-end:
+  #   image: 
+  #   command: 
+  #   ports:
+  #     - "7000:"
+  #   networks:
+  #     - midas-network
+
 networks:
-  extension-network:
+  midas-network:

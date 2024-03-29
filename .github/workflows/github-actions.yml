@@ -39,12 +39,9 @@ jobs:
       - name: Docker Image Build
         run: |
           docker build \
-          -t ${{ secrets.DOKCERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest .
+          -t ${{ secrets.DOKCERHUB_USERNAME }}/extension:latest .
       
       - name: Docker Image Push
         run: |
           docker push \
-          ${{ secrets.DOKCERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
-
-    env:
-      DOCKER_IMAGE_NAME: extension
+          ${{ secrets.DOKCERHUB_USERNAME }}/extension:latest

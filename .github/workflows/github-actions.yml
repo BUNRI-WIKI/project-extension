@@ -47,4 +47,4 @@ jobs:
           ${{ secrets.DOKCERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
     env:
-      DOCKER_IMAGE_NAME: midas-extension
+      DOCKER_IMAGE_NAME: extension

@@ -39,7 +39,7 @@ jobs:
       - name: Docker Image Build
         run: |
           docker build \
-          -t ${{ secrets.DOKCERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }} .
+          -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }} .
       
       - name: Docker Image Push
         run: |

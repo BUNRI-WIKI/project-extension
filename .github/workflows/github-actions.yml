@@ -46,5 +46,5 @@ jobs:
           docker push \
           ${{ secrets.DOKCERHUB_USERNAME }}/${{ DOCKER_IMAGE_NAME }}
 
-env:
-  DOCKER_IMAGE_NAME: extension
+  env:
+    DOCKER_IMAGE_NAME: extension

@@ -4,9 +4,9 @@ services:
   fastapi:
     build: 
       dockerfile: docker/Dockerfile
-    command: "uvicorn app.main:app --host=0.0.0.0 --port=8000 --reload"
+    #command: "uvicorn app.main:app --host=0.0.0.0 --port=5000 --reload"
     ports:
-      - "5000:8000"
+      - "5000:5000"
     develop:
       watch:
         - action: sync
@@ -21,13 +21,12 @@ services:
     networks:
       - midas-network
 
-  # front-end:
-  #   image: 
-  #   command: 
-  #   ports:
-  #     - "7000:"
-  #   networks:
-  #     - midas-network
+  front-end:
+    image: gam5g/front:0.0.1
+    ports:
+      - "7000:3000"
+    networks:
+      - midas-network
 
 networks:
   midas-network:

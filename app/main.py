@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.model import model_router
+from app.model import router
 
 app = FastAPI(
     title="MIDAS",
@@ -10,9 +10,8 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-app.include_router(model_router.app, tags=["model"])
+app.include_router(router.app)
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
-
+    return {"message": "Hello"}

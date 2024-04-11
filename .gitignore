@@ -1,0 +1,5 @@
+docker/
+.dockerignore
+.yaml
+
+.log

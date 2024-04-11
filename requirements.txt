@@ -1,13 +1,14 @@
-# fastapi dependency
+# Fastapi
 fastapi>=0.68.0,<0.69.0
 pydantic>=1.8.0,<2.0.0
 uvicorn>=0.15.0,<0.16.0
 
-# YOLO dependency
+# YOLO
 ultralytics
+dill==0.3.8
 
 # Python WSGI
 gunicorn==20.1.0
 
-# Python logger
+# Logger
 loguru

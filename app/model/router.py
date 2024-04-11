@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, HTTPException
 
 from app.image.util import Image
-from app.image.handler import ImageHandler
+from app.image.Handler import ImageHandler
 
 from app.model import service
 from app.model.schema import ModelResponse, ModelRequest

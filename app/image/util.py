@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import requests
 
+from app.configs.logger import Logger
+
 IMG_FORMATS = {"jpeg", "jpg", "png"}
 
 class Image:
@@ -19,8 +21,13 @@ class Image:
         return self.__image.shape
 
     def ResourceToImage(self,):
-        if self.__rsrc['type'] == 'url': return self.UrlToImage()
-        else: return None
+        if self.__rsrc['type'] == 'url': 
+            Logger.info('IMAGE TYPE=URL')
+            return self.UrlToImage()
+        
+        else: 
+            Logger.error('IMAGE TPYE EXCEPTION')
+            return None
 
     def UrlToImage(self):
         try:
@@ -28,5 +35,5 @@ class Image:
             return cv2.imdecode(image_nparray, cv2.IMREAD_COLOR)
         
         except Exception as e:
-            print('url_image_read Exception')
+            Logger.error('IMAGE READ EXCEPTION')
             raise

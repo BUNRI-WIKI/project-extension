@@ -9,19 +9,15 @@ def InitializeLogger(cls):
 @InitializeLogger
 class Logger:
     def init_static() -> None:
-        __sink = 'logfile.log'
-        __format = '{time} - {extra[user]}:{extra[ip]} | {level} | {message}'
-        __retention = '3 day'
-
         host = socket.gethostname()
         ip = socket.gethostbyname(host)
 
         logger.configure(extra={"user": host, "ip": ip})
         logger.remove()
         logger.add(
-            sink=__sink, 
-            format=__format,
-            retention=__retention
+            sink='logfile.log', 
+            format='{time} - {extra[user]}:{extra[ip]} | {level}\t| {message}',
+            retention='3 day'
         )
 
     @staticmethod

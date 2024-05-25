@@ -12,3 +12,14 @@ gunicorn==20.1.0
 
 # Logger
 loguru
+
+# KcBert
+transformers
+torch==2.0.0
+
+# dvc
+dvc
+dvc[s3]
+
+# env
+python-dotenv

@@ -1,7 +1,10 @@
 docker/
+__pycache__/
+
 .dockerignore
 .yaml
 
-.log
-
-__pycache__/
+*.log
+*.env
+*.pt
+*.ptn

@@ -1,0 +1,5 @@
+outs:
+- md5: 698884c47a0e4e6411b066d8b2bff780
+  size: 435793024
+  hash: md5
+  path: kcbert_hatespeech_classifier.pth

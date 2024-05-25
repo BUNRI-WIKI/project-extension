@@ -1,21 +1,21 @@
-from ultralytics import YOLO
-import json
+
 from datetime import datetime
 
-from app.configs.logger import Logger
-from app.model.constants import MODEL_PATH
-from app.model.schema import ModelResponse
+from app.yolo.model import YoloModel
+from app.bert.model import KcBertModel
+from app.model.schema import YoloModelResponse, KcbertModelResponse
 
-def model_detect(image_uri: str) -> ModelResponse:
-    try:
-        model = YOLO(MODEL_PATH)
-        result = model(image_uri)[0]
-
-    except Exception as e:
-        Logger.error('YOLO MODEL EXCEPTION')
-        raise 
-    
-    return ModelResponse( 
+def detect_recycle_image(image_uri: str) -> YoloModelResponse:
+    model = YoloModel()
+    return YoloModelResponse( 
         responseTime= datetime.now(),
-        result= json.loads(result.tojson())
+        result=model.get_yolo_result(image_uri)
+    )
+
+
+def detect_hatespeech(sentence: str) -> KcbertModelResponse:
+    model = KcBertModel()
+    return KcbertModelResponse(
+        responseTime= datetime.now(),
+        result=model.get_kcbert_result(sentence)
     )

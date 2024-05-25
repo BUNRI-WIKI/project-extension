@@ -7,7 +7,6 @@ from app.configs.logger import Logger
 class KcBertModel:
     def __init__(self) -> None:
         self.__model_name = 'beomi/kcbert-base'
-        #self.__model_save_path = model_path
 
         self.model = AutoModelForSequenceClassification.from_pretrained(self.__model_name, num_labels=11)
         self.tokenizer = AutoTokenizer.from_pretrained(self.__model_name)
@@ -16,7 +15,6 @@ class KcBertModel:
     def get_kcbert_result(self, setence: str) -> list:
         Logger.info('START KcBERT MODEL LOAD')
         try:
-            # torch.load(self.__model_save_path, map_location=torch.device('cpu'))
             self.model.load_state_dict(Lodder.load_kcbert_model())
             self.model.eval()
 

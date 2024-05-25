@@ -21,7 +21,8 @@ class Lodder:
 			remote_config={
 				'access_key_id' : os.environ.get('access_key_id'),
 				'secret_access_key' : os.environ.get('secret_access_key')
-			}
+			},
+			mode='rb'
 		) as model:
 			return torch.load(model, map_location=torch.device('cpu'))
 	
@@ -33,6 +34,7 @@ class Lodder:
 			remote_config={
 				'access_key_id' : os.environ.get('access_key_id'),
 				'secret_access_key' : os.environ.get('secret_access_key')
-			}
+			},
+			mode='rb'
 		) as model:
 			return torch.load(model, map_location=torch.device('cpu'))

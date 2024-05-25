@@ -1,10 +1,11 @@
 docker/
+__pycache__/
+
 .dockerignore
 .yaml
 
 *.log
 *.env
 
-__pycache__/
-/yolo.pt
-/kcbert_hatespeech_classifier.pth
+*.pt
+*.ptn

@@ -11,7 +11,7 @@ app = APIRouter(
     tags=["models"],
 )
 
-Handler = ImageHandler()
+handler = ImageHandler()
 
 @app.get(path="/image-detection", 
          description="Recycled image detection & classification",
@@ -19,7 +19,7 @@ Handler = ImageHandler()
          status_code=status.HTTP_200_OK)
 async def model_detect(request: YoloModelRequest):
     image = Image(request)
-    if not Handler.check_image(image):
+    if not handler.check_image(image):
         raise HTTPException(status_code=404, detail="Item not found")
     return service.detect_recycle_image(image.get())
 

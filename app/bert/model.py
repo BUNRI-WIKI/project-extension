@@ -8,6 +8,8 @@ class KcBertModel:
     def __init__(self) -> None:
         self.__model_name = 'beomi/kcbert-base'
 
+        self.__lodder = Lodder()
+
         self.model = AutoModelForSequenceClassification.from_pretrained(self.__model_name, num_labels=11)
         self.tokenizer = AutoTokenizer.from_pretrained(self.__model_name)
         Logger.success('KcBERT MODEL INIT')
@@ -15,7 +17,7 @@ class KcBertModel:
     def get_kcbert_result(self, setence: str) -> list:
         Logger.info('START KcBERT MODEL LOAD')
         try:
-            self.model.load_state_dict(Lodder.load_kcbert_model())
+            self.model.load_state_dict(self.__lodder.load_kcbert_model('kcbert_hatespeech_classifier.pth'))
             self.model.eval()
 
             encoding = self.tokenizer(setence, padding=True, truncation=True, return_tensors="pt")

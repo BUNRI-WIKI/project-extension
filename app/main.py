@@ -14,4 +14,4 @@ app.include_router(router.app)
 
 @app.get("/")
 def read_root():
-    return {"message": "Hello"}
+    return {"health_check": "ok"}

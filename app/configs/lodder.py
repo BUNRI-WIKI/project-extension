@@ -27,8 +27,8 @@ class Lodder:
 	def setting_cli_config(self):
 		self.__repo = 'https://github.com/YU-MIDAS/project-extension.git'
 		self.__remote_config = {
-				'access_key_id' : Settings.ACCESS_KEY_ID,
-				'secret_access_key' : Settings.SECRET_ACCESS_KEY
+				'access_key_id' : os.environ('ACCESS_KEY_ID'),
+				'secret_access_key' : os.environ('SECRET_ACCESS_KEY')
 		}
 		self.__mode = 'rb'
 

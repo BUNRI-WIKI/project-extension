@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, HTTPException
 
+from app.configs.lodder import Lodder
 from app.image.util import Image
 from app.image.handler import ImageHandler
-
 from app.model import service
 from app.model.schema import YoloModelResponse, YoloModelRequest, KcbertModelRequest, KcbertModelResponse
 
@@ -12,6 +12,7 @@ app = APIRouter(
 )
 
 handler = ImageHandler()
+lodder = Lodder()
 
 @app.get(path="/image-detection", 
          description="Recycled image detection & classification",
@@ -21,7 +22,7 @@ async def model_detect(request: YoloModelRequest):
     image = Image(request)
     if not handler.check_image(image):
         raise HTTPException(status_code=404, detail="Item not found")
-    return service.detect_recycle_image(image.get())
+    return service.detect_recycle_image(lodder, image.get())
 
 
 @app.get(path="/hatespeech-detection",
@@ -29,4 +30,4 @@ async def model_detect(request: YoloModelRequest):
          response_model=KcbertModelResponse,
          status_code=status.HTTP_200_OK)
 async def model_hatespeech_detect(request: KcbertModelRequest):
-    return service.detect_hatespeech(request.dict()['resource'])
+    return service.detect_hatespeech(lodder, request.dict()['resource'])

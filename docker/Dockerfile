@@ -2,6 +2,9 @@
 # Use the official Python 3.10 slim
 FROM python:3.10-slim
 
+ENV ACCESS_KEY_ID \ 
+    SECRET_ACCESS_KEY
+
 # Update & Install libgl1-mesa-glx
 RUN apt update && \
     apt install -y htop libgl1-mesa-glx libglib2.0-0

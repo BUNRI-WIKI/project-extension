@@ -1,19 +1,16 @@
 import json
 
-from ultralytics import YOLO
-from app.configs.lodder import Lodder
 from app.configs.logger import Logger
 
 class YoloModel:
-    def __init__(self) -> None:
-
-        self.__lodder = Lodder()
+    def __init__(self, lodder) -> None:
+        self.__lodder = lodder
 
 
     def get_yolo_result(self, image_uri):
         Logger.info('START YOLO MODEL LOAD')
         try:
-            model = self.__lodder.load_yolo_model('yolo.pt')
+            model = self.__lodder.get_yolo_model()
             result = model(image_uri)[0]
 
         except Exception as e:

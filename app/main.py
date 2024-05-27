@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.model import router
+from app.configs.lodder import Lodder
 
 app = FastAPI(
     title="MIDAS",
@@ -11,6 +12,8 @@ app = FastAPI(
 )
 
 app.include_router(router.app)
+
+lodder = Lodder()
 
 @app.get("/")
 def read_root():

@@ -25,7 +25,7 @@ COPY ./requirements.txt /src/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /src/requirements.txt
 
 # Copy fastapi folder
-COPY ./app /src/app
+COPY ./ /src/
 
 # CMD
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5000"]

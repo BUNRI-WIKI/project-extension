@@ -2,15 +2,18 @@ import os
 import dvc.api
 import torch
 
+from ultralytics import YOLO
+
 class Lodder:
 	def __init__(self) -> None:
 		self.setting_cli_config()
-		self.__kcbert_model = self.load_kcbert_model('kcbert_hatespeech_classifier.pth')
-		self.__yolo_model = self.load_kcbert_model('yolo.pt')
+
+		self.__kcbert_model = torch.load('kcbert_hatespeech_classifier.pth', map_location=torch.device('cpu'))
+		self.__yolo_model = YOLO('yolo.pt')
+		# self.__kcbert_model = self.load_kcbert_model('kcbert_hatespeech_classifier.pth')
+		# self.__yolo_model = self.load_kcbert_model('yolo.pt')
 
 	def setting_cli_config(self):
-		print(os.environ.get('ACCESS_KEY_ID'))
-		print(os.environ.get('SECRET_ACCESS_KEY'))
 		self.__repo = 'https://github.com/YU-MIDAS/project-extension.git'
 		self.__remote_config = {
 				'access_key_id' : os.environ.get('ACCESS_KEY_ID'),

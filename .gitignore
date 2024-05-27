@@ -1,6 +1,8 @@
 docker/
 __pycache__/
 
+github-actions.yml
+
 .dockerignore
 .yaml
 
@@ -8,4 +10,4 @@ __pycache__/
 *.env
 
 *.pt
-*.ptn
+*.pth

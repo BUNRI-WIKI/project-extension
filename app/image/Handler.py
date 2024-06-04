@@ -1,9 +1,6 @@
 from app.configs.logger import Logger
 
 class ImageHandler:
-    def __init__(self,) -> None:
-        pass
-
     def check_image(self, image) -> bool:
         Logger.info('START IMAGE CHECK')
         if not self.check_image_size(image): return False

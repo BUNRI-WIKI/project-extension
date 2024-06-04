@@ -13,5 +13,5 @@ app = FastAPI(
 app.include_router(router.app)
 
 @app.get("/")
-def read_root():
+def health_check():
     return {"health_check": "ok"}

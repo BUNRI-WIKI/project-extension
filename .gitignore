@@ -8,5 +8,6 @@ github-actions.yml
 
 *.log
 *.env
+
 *.pt
 *.pth

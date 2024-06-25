@@ -1,4 +1,6 @@
 import torch
+import torch.nn.functional as F
+
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 from app.configs.logger import Logger
@@ -22,14 +24,15 @@ class KcBertModel:
             encoding = self.tokenizer(setence, padding=True, truncation=True, return_tensors="pt")
 
             with torch.no_grad():
-                result = self.model(**encoding).logits[0]
-        
+                logit = self.model(**encoding).logits[0]
+                result = F.softmax(F.log_softmax(logit, dim=0), dim=0)
+                
         except Exception as e:
             Logger.error('KcBERT MODEL LOAD EXCEPTION')
             raise 
         
         Logger.success('KcBERT MODEL LOAD')
-        result = [{self.__change_label(idx) : result[idx].item() for idx in torch.argsort(result, descending=True)}]
+        result = [{self.__change_label(idx) : result[idx].item()*100 for idx in torch.argsort(result, descending=True)}]
         return result
     
     def __change_label(self, label) -> str:

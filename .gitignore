@@ -1,0 +1,13 @@
+docker/
+__pycache__/
+
+github-actions.yml
+
+.dockerignore
+.yaml
+
+*.log
+*.env
+
+*.pt
+*.pth

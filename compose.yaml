@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  fastapi:
+    image: hdh026163635
+    ports:
+      - "5000:5000"
+    develop:
+      watch:
+        - action: sync
+          path: ./app
+    networks:
+      - midas-network
+
+  was:
+    image: iampingu99/project-backend
+    ports:
+      - "8000:8080"
+    networks:
+      - midas-network
+
+  front:
+    image: gam5g/front:0.0.1
+    ports:
+      - "7000:3000"
+    networks:
+      - midas-network
+
+networks:
+  midas-network:

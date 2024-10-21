@@ -1,3 +1,25 @@
+# Fastapi
 fastapi>=0.68.0,<0.69.0
 pydantic>=1.8.0,<2.0.0
 uvicorn>=0.15.0,<0.16.0
+
+# YOLO
+ultralytics
+dill==0.3.8
+
+# Python WSGI
+gunicorn==20.1.0
+
+# Logger
+loguru
+
+# KcBert
+transformers
+torch==2.0.0
+
+# dvc
+dvc
+dvc[s3]
+
+# env
+python-dotenv

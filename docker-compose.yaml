@@ -1,0 +1,40 @@
+services:
+  fastapi:
+    image: hdh026163635/extension
+    container_name: fastapi_app
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    networks:
+      - midas_extension
+
+  tensorboard:
+    image: tensorflow/tensorflow:latest
+    container_name: tensorboard_app
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+    ports:
+      - "6006:6006" 
+    env_file:
+      - .env
+    command: >
+      /bin/bash -c "pip install tensorflow-io &&
+      tensorboard --logdir s3://midas-bucket-1/models/ --host 0.0.0.0"
+    networks:
+      - midas_extension
+
+  watchtower:
+    image: containrrr/watchtower
+    env_file:
+      - .env
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --interval 30
+    networks:
+      - midas_extension
+
+networks:
+  midas_extension:
+    driver: bridge

@@ -1,9 +1,12 @@
-
 # Use the official Python 3.10 slim
 FROM python:3.10-slim
 
-ENV ACCESS_KEY_ID \ 
-    SECRET_ACCESS_KEY
+# Setting environment variables
+ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+ENV AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+ENV MODELS_DIRS=${MODELS_DIRS}
 
 # Update & Install libgl1-mesa-glx
 RUN apt update && \
@@ -28,4 +31,4 @@ RUN pip install --no-cache-dir --upgrade -r /src/requirements.txt
 COPY ./ /src/
 
 # CMD
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]

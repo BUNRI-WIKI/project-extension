@@ -39,4 +39,3 @@ class Logger:
     @staticmethod
     def error(msg) -> None:
         logger.error(msg)
-    

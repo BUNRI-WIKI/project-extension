@@ -1,13 +1,8 @@
-docker/
 __pycache__/
-
-github-actions.yml
+/models
 
 .dockerignore
-.yaml
 
 *.log
 *.env
-
 *.pt
-*.pth

@@ -6,6 +6,7 @@ import torch
 from app.utils.logger import Logger
 
 load_dotenv()
+load_dotenv(dotenv_path=".env.local")
 
 class S3ModelLoader:
     def __init__(self):
@@ -17,17 +18,22 @@ class S3ModelLoader:
 
         """
         import boto3
-
-        Logger.info("Initializing S3ModelLoader...")
-        session = boto3.Session(
-            aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-            aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
-            region_name=os.getenv("AWS_DEFAULT_REGION")
-        )
         
-        self.s3 = session.resource("s3")
-        self.bucket_name = os.getenv("AWS_S3_BUCKET_NAME")
-        self.cache_dir = os.path.abspath(os.getenv("MODELS_DIRS"))
+        try:
+            Logger.info("Initializing S3ModelLoader...")
+            session = boto3.Session(
+                aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+                aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+                region_name=os.getenv("AWS_DEFAULT_REGION")
+            )
+            
+            self.s3 = session.resource("s3")
+            self.bucket_name = os.getenv("AWS_S3_BUCKET_NAME")
+            self.cache_dir = os.path.abspath(os.getenv("MODELS_DIRS"))
+        except:
+            self.s3 = None
+            self.bucket_name = os.getenv("AWS_S3_BUCKET_NAME")
+            self.cache_dir = os.path.abspath(os.getenv("MODELS_DIRS"))
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         Logger.info(f"Using device: {self.device}")
@@ -89,20 +95,25 @@ class S3ModelLoader:
         tuple: A tuple containing the loaded KcBERT model and tokenizer.
 
         """
-        Logger.info("Loading KcBERT model from S3...")
-        latest_kcbert_model_info = self._get_latest_model_path_from_s3()["models"]["kcbert"]
-        name = latest_kcbert_model_info["name"]
-        path = latest_kcbert_model_info["path"]
-        
+        try:
+            Logger.info("Loading KcBERT model from S3...")
+            latest_kcbert_model_info = self._get_latest_model_path_from_s3()["models"]["kcbert"]
+            name = latest_kcbert_model_info["name"]
+            path = latest_kcbert_model_info["path"]
+            
+            Logger.info(f"Downloading latest KcBERT model state_dict from S3: {name}")
+            local_state_dict_path = self._download_model_from_s3(name, path)
+        except Exception as e:
+            Logger.info(f"Failed to load KcBERT model from S3: {e}")
+            Logger.info("Loading KcBERT model from local storage...")
+            local_state_dict_path = os.getenv("DEFAULT_KCBERT_STATE_DICT_PATH")
+
         from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
         Logger.info("Loading KcBERT base model and tokenizer from local...")
         base_model_name = "beomi/kcbert-base"
         model = AutoModelForSequenceClassification.from_pretrained(base_model_name, num_labels=11)
         tokenizer = AutoTokenizer.from_pretrained(base_model_name)
-
-        Logger.info(f"Downloading latest KcBERT model state_dict from S3: {name}")
-        local_state_dict_path = self._download_model_from_s3(name, path)
 
         Logger.info("Loading state_dict into the KcBERT model...")
         state_dict = torch.load(local_state_dict_path, map_location=self.device)
@@ -124,15 +135,20 @@ class S3ModelLoader:
         YOLO: The YOLO model loaded with the latest state_dict.
 
         """
-        Logger.info("Loading YOLO model from S3...")
-        latest_yolo_model_info = self._get_latest_model_path_from_s3()["models"]["yolo"]
-        name = latest_yolo_model_info["name"]
-        path = latest_yolo_model_info["path"]
-
         from ultralytics import YOLO
-        
-        Logger.info(f"Downloading latest YOLO model state_dict from S3: {name}")
-        local_model_path = self._download_model_from_s3(name, path)
+
+        try:
+            Logger.info("Loading YOLO model from S3...")
+            latest_yolo_model_info = self._get_latest_model_path_from_s3()["models"]["yolo"]
+            name = latest_yolo_model_info["name"]
+            path = latest_yolo_model_info["path"]
+            
+            Logger.info(f"Downloading latest YOLO model state_dict from S3: {name}")
+            local_model_path = self._download_model_from_s3(name, path)
+        except Exception as e:
+            Logger.info(f"Failed to load YOLO model from S3: {e}")
+            Logger.info("Loading YOLO model from local storage...")
+            local_model_path = os.getenv("DEFAULT_YOLO_MODEL_PATH")
 
         Logger.info("Initializing the YOLO model...")
         model = YOLO(local_model_path)

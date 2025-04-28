@@ -3,10 +3,8 @@ from contextlib import asynccontextmanager
 
 from app.utils.logger import Logger
 
-
 kcbert_model_instance = None
 yolo_model_instance = None
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -17,30 +15,33 @@ async def lifespan(app: FastAPI):
 
     global kcbert_model_instance, yolo_model_instance
 
-    Logger.info("start server")
-    s3_loader = S3ModelLoader()
+    Logger.initialize()
+    Logger.info("Start server")
 
-    kcbert_model, kcbert_tokenizer = s3_loader.load_kcbert_model()
-    yolo_model = s3_loader.load_yolo_model()
-    
-    kcbert_model_instance = KcBertModel(kcbert_model, kcbert_tokenizer)
-    yolo_model_instance = YoloModel(yolo_model)
-    
-    app.include_router(yolo.router)
-    app.include_router(kcbert.router)
-    Logger.info("Finish Init")
-    
+    try:
+        s3_loader = S3ModelLoader()
+        kcbert_model, kcbert_tokenizer = s3_loader.load_kcbert_model()
+        yolo_model = s3_loader.load_yolo_model()
+
+        kcbert_model_instance = KcBertModel(kcbert_model, kcbert_tokenizer)
+        yolo_model_instance = YoloModel(yolo_model)
+
+        app.include_router(yolo.router)
+        app.include_router(kcbert.router)
+        Logger.info("Finish Init")
+    except Exception as e:
+        Logger.error(f"Server initialization failed: {str(e)}")
+        raise RuntimeError("Server initialization failed") from e
+
     yield
-    
-    Logger.info("close server")
 
+    Logger.info("Close server")
 
 def get_kcbert_model():
     return kcbert_model_instance
 
 def get_yolo_model():
     return yolo_model_instance
-
 
 app = FastAPI(
     title="MIDAS",
@@ -51,4 +52,4 @@ app = FastAPI(
 
 @app.get("/")
 def health_check():
-    return {"Health Check": "OK"}
+    return {"status": "OK"}

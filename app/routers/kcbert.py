@@ -12,7 +12,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get(
+@router.post(
     path="/prediction",
     description="Korean hate speech detection & classification",
     response_model=KcbertModelResponse,

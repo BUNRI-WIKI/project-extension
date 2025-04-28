@@ -13,7 +13,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get(
+@router.post(
     path="/prediction", 
     description="Recycled image detection & classification",
     response_model=YoloModelResponse,

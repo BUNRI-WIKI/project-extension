@@ -1,21 +1,16 @@
 from loguru import logger
-
 import socket
 
-def InitializeLogger(cls):
-    cls.init_static()
-    return cls
-
-@InitializeLogger
 class Logger:
-    def init_static() -> None:
+    @classmethod
+    def initialize(cls) -> None:
         host = socket.gethostname()
         ip = socket.gethostbyname(host)
 
         logger.configure(extra={"user": host, "ip": ip})
         logger.remove()
         logger.add(
-            sink='logfile.log', 
+            sink='logfile.log',
             format='{time} - {extra[user]}:{extra[ip]} | {level}\t| {message}',
             retention='3 day'
         )

@@ -13,14 +13,13 @@
 
 ## 2. 기술 스택
 
-| 구분 | 사용 기술 |
-|:---|:---|
-| Language | Python 3.10 |
-| Web Framework | FastAPI |
-| Cloud Storage | AWS S3 |
-| Visualization | TensorBoard |
-| Containerization | Docker, Docker Compose |
-| 기타 | boto3, loguru, transformers, ultralytics (YOLO) |
+| 분류             | 기술 목록                                                  |
+| -------------- | ------------------------------------------------------ |
+| **개발 언어 및 환경** | Python 3.10, Docker, Docker Compose                    |
+| **웹 프레임워크**    | FastAPI                                                |
+| **모델 서빙 및 학습** | Transformers (KcBERT), Ultralytics YOLOv8, TensorBoard |
+| **클라우드 서비스**   | AWS S3 (모델 저장 및 로딩)                                    |
+| **로깅 및 기타 도구** | loguru, boto3                                          |
 
 
 
